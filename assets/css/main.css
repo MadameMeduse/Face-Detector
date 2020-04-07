@@ -8,6 +8,20 @@ body {
   background-size: cover;
 }
 
+.controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: white;
+  padding: 2vmin;
+}
+.controls label {
+  text-align: center;
+}
+.controls input {
+  display: flex;
+}
+
 .wrap {
   position: relative;
   min-height: 100vh;

@@ -7,7 +7,20 @@ body {
 	background-image: url(../images/flowers.jpg);
 	background-size: cover;
 }
+.controls {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background: white;
+	padding: 2vmin;
+	label {
+		text-align: center;
+	}
 
+	input {
+		display: flex;
+	}
+}
 .wrap {
 	position: relative;
 	min-height: 100vh;
