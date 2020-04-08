@@ -1,24 +1,38 @@
+@import url('https://fonts.googleapis.com/css?family=Lato&display=swap');
+
 * {
 	box-sizing: border-box;
 }
 
 body {
 	margin: 0;
-	background-image: url(../images/flowers.jpg);
+	background-image: url(../images/header__background.png);
 	background-size: cover;
+	font-family: 'Lato';
 }
 .controls {
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	background: white;
-	padding: 2vmin;
+	padding: 1vmin;
+	background: transparent;
+	position: fixed;
+	top: 0;
+	z-index: 1;
+	color: white;
+	width: 100vw;
 	label {
 		text-align: center;
+		font-size: 35px;
 	}
 
 	input {
 		display: flex;
+		margin: 10px;
+		&:hover {
+			cursor: pointer;
+		}
 	}
 }
 .wrap {

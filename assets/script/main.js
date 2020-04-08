@@ -20,7 +20,7 @@ optionsInputs.forEach((input) => input.addEventListener('input', handleOption));
 async function populateVideo() {
 	const stream = await navigator.mediaDevices.getUserMedia({
 		//aby dodac await trzeba stworzyc funkcje asynchroniczną dodajac slowo 'async' przed function
-		video: { width: 1280, height: 720 }
+		video: { width: 900, height: 620 }
 	});
 	video.srcObject = stream; //zrodlo obrazyu - stream
 	await video.play(); //poczekaj az strem sie zaladuje dopiero odtwarzaj
