@@ -1,14 +1,19 @@
 const video = document.querySelector('.webcam');
-
 const canvas = document.querySelector('.video');
 const ctx = canvas.getContext('2d');
-
 const faceCanvas = document.querySelector('.face');
-const faceCtx = canvas.getContext('2d');
-
+const faceCtx = faceCanvas.getContext('2d');
 const faceDetector = new window.FaceDetector();
-
-// console.log(video, canvas, faceCanvas, faceDetector);
+const optionsInputs = document.querySelectorAll('.controls input[type="range"]');
+const options = {
+	SIZE: 20,
+	SCALE: 1.35
+};
+function handleOption(e) {
+	const { value, name } = e.currentTarget;
+	options[name] = parseFloat(value); //parse float zamienia string z inputa na liczbę
+}
+optionsInputs.forEach((input) => input.addEventListener('input', handleOption));
 
 //function witch populate a user video
 
@@ -32,7 +37,9 @@ async function detect() {
 
 	//ask the browser when teh next animation is and tell it to run detect function for me
 	faces.forEach(drawFace);
-	requestAnimationFrame(detect); //wywołanie funkcji w lepszy sposob pod wzgledem performanc, recoursion to wywołanie funckji w samej sobie co powoduje nieskonczone wywolanie tej funkcji
+	requestAnimationFrame(detect);
+	faces.forEach(censor);
+	//wywołanie funkcji w lepszy sposob pod wzgledem performanc, recoursion to wywołanie funckji w samej sobie co powoduje nieskonczone wywolanie tej funkcji
 }
 
 function drawFace(face) {
@@ -44,7 +51,38 @@ function drawFace(face) {
 }
 
 function censor({ boundingBox: face }) {
-	// destrukturyzacja boundingBox i zmiana nazwy na "face"
+	faceCtx.imageSmoothingEnabled = false;
+	faceCtx.clearRect(0, 0, faceCanvas.width, faceCanvas.height);
+	// draw the small face
+	faceCtx.drawImage(
+		// 5 source args
+		video, // where does the source come from?
+		face.x, // where do we start the source pull from?
+		face.y,
+		face.width,
+		face.height,
+		// 4 draw args
+		face.x, // where should we start drawing the x and y?
+		face.y,
+		options.SIZE,
+		options.SIZE
+	);
+	// take that face back out and draw it back at normal size
+
+	const width = face.width * options.SCALE;
+	const height = face.height * options.SCALE;
+	faceCtx.drawImage(
+		faceCanvas, // source
+		face.x, // where do we start the source pull from?
+		face.y,
+		options.SIZE,
+		options.SIZE,
+		// Drawing args
+		face.x - (width - face.width) / 2,
+		face.y - (height - face.height) / 2,
+		width,
+		height
+	);
 }
 
 populateVideo().then(detect); //najpierw generuje sie video czekamy i jak sie zaladuje dopiero funckja detect
